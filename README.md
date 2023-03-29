@@ -4,5 +4,6 @@ This is an approximate implementation of Dekker's and Peterson's Algorithms for 
 
 ## Build
 
-> cmake -B build
-> cmake --build build
+``` bash
+cmake -B build
+cmake --build build
