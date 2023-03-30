@@ -13,7 +13,7 @@ void start_threads() {
     // Ejecutamos la cantidad de hilos especificados
     for (int i = 0; i < THREAD_COUNT; i++) {
         bool is_completed = false;
-        std::cout << "Thread " << i << " execution initialized." << std::endl;
+        std::cout << "-> Thread " << i << " execution initialized." << std::endl;
         do {
             // Sección de Entrada
             // Cambiamos el estado a verdadero puesto que queremos entrar a la zona crítica
@@ -23,13 +23,15 @@ void start_threads() {
                 if (turn == (i + 1) % THREAD_COUNT) {
                     thread_state[i] = false;
                     // Si no es el turno del hilo se espera a que se libere la zona crítica
-                    while (turn == (i + 1) % THREAD_COUNT);
+                    while (turn == (i + 1) % THREAD_COUNT) {
+                        std::cout << "\t⌛ Waiting for a turn to enter..." << std::endl;
+                    }
                     thread_state[i] = true;
                 }
             }
             // Zona Crítica
             // Una vez dentro de la zona crítica se realizan las operaciones correspondientes
-            std::cout << "\tWe do out thing inside the critical zone..." << std::endl;
+            std::cout << "\t🛠 We do our thing inside the critical zone..." << std::endl;
             ++shared_counter;
             is_completed = true;
             // Una vez terminadas, se cede el turno al siguiente hilo de ejecución
@@ -38,14 +40,16 @@ void start_threads() {
             thread_state[i] = false;
             // Resto de la Ejecución
         } while (!is_completed);
-        std::cout << "Thread " << i << " execution finished." << std::endl;
+        std::cout << "<- Thread " << i << " execution finished." << std::endl;
     }
 }
 
 // Inicialización del Algoritmo 
 int main() {
     // Ejecución de los hilos de forma concurrente o paralela
+    std::cout << "Started Execution" << std::endl;
     start_threads();
     // Terminación del Algoritmo
+    std::cout << "Finished Execution" << std::endl;
     return 0;
 }
